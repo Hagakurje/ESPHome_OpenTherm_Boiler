@@ -13,7 +13,7 @@
   * 4 and 5 for ESP8266
   * 21 and 22 for ESP32
 * Edit your ".yaml" file like "opentherm_boiler.yaml"
-* Connect board and adapter to tour boiler
+* Connect board and adapter to your boiler
 * Enjoy :)
 
 
