@@ -1,0 +1,71 @@
+esphome:
+  name: opentherm-boiler
+  includes:
+    - opentherm/esp_opentherm.h
+  libraries:
+    - "OpenTherm Library"
+
+esp32:
+  board: nodemcu-32s
+
+wifi:
+  ssid: ''            #Enter wifi ssid
+  password:           #Enter wifi password
+  fast_connect: true
+
+logger:
+
+api:
+  encryption:
+    key:              #Enter key
+
+ota:
+  password: ''        #Enter password
+
+custom_component:
+- lambda: |-
+    auto opentherm_component = new OpenThermComponent();
+    return {opentherm_component};
+- lambda: |-
+    auto opentherm_api = new OpenThermApi();
+    return {opentherm_api};  
+  
+sensor:
+- platform: custom
+  lambda: |-
+    auto opentherm_sensor = new OpenThermSensor();
+    App.register_component(opentherm_sensor);
+    return {
+      opentherm_sensor->boiler_temperature_sensor, 
+      opentherm_sensor->boiler_modulation_sensor, 
+      opentherm_sensor->target_temperature_sensor,
+      opentherm_sensor->return_temperature_sensor,
+      opentherm_sensor->boiler_pressure_sensor
+    };
+
+  sensors:
+  - name: "Boiler temperature"
+    unit_of_measurement: °C
+    accuracy_decimals: 0
+  - name: "Boiler modulation"
+    unit_of_measurement: '%'
+    accuracy_decimals: 0
+  - name: "Boiler target temperature"
+    unit_of_measurement: °C
+    accuracy_decimals: 0
+  - name: "Boiler return temperature"
+    unit_of_measurement: °C
+    accuracy_decimals: 0
+  - name: "Boiler pressure"
+    unit_of_measurement: hPa
+    accuracy_decimals: 0    
+  
+binary_sensor:
+- platform: custom
+  lambda: |-
+    auto opentherm_binary_sensor = new OpenThermBinarySensor();
+    App.register_component(opentherm_binary_sensor);
+    return {opentherm_binary_sensor};
+
+  binary_sensors:
+    name: "Boiler central heating"
