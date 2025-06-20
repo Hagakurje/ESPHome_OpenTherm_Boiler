@@ -22,5 +22,5 @@
 ```
 - service: esphome.opentherm_boiler_set_target_temperature
   data:
-    temperature: 60
+    temp: 60
 ```
